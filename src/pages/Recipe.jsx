@@ -7,6 +7,7 @@ import React from "react";
 function Recipe() {
   let params = useParams();
   const [details, setDetails] = useState({});
+  const [activeTab, setActiveTab] = useState("instructions");
 
   const fetchDetails = async () => {
     const data = await fetch(
@@ -20,16 +21,32 @@ function Recipe() {
     fetchDetails();
   }, [params.name]);
 
-  return <DetailWrapper>
-    <div>
+  return (
+    <DetailWrapper>
+      <div>
         <h2>{details.title}</h2>
         <img src={details.image} alt="" />
-    </div>
-    <Info>
-        <Button>Instructions</Button>
-        <Button>Ingredients</Button>
-    </Info>
-  </DetailWrapper>
+      </div>
+      <Info>
+        <Button
+          className={activeTab === "instructions" ? "active" : ""}
+          onClick={() => {
+            setActiveTab("instructions");
+          }}
+        >
+          Instructions
+        </Button>
+        <Button
+          className={activeTab === "ingredients" ? "active" : ""}
+          onClick={() => {
+            setActiveTab("ingredients");
+          }}
+        >
+          Ingredients
+        </Button>
+      </Info>
+    </DetailWrapper>
+  );
 }
 
 const DetailWrapper = styled.div`
@@ -57,16 +74,16 @@ const DetailWrapper = styled.div`
 `;
 
 const Button = styled.button`
-    padding: 1rem 2rem;
-    color: #313131;
-    background: white;
-    border: 2px solid black;
-    margin-right: 2rem;
-    font-weight: 600;
-`
+  padding: 1rem 2rem;
+  color: #313131;
+  background: white;
+  border: 2px solid black;
+  margin-right: 2rem;
+  font-weight: 600;
+`;
 
 const Info = styled.div`
-    margin-left: 10rem;
-`
+  margin-left: 10rem;
+`;
 
 export default Recipe;
